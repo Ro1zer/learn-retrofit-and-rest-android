@@ -1,6 +1,5 @@
 package com.example.restapi.ui.screens
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,10 +13,8 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -39,6 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.restapi.R
+import com.example.restapi.ui.screens.components.LoginTextField
 import com.example.restapi.ui.theme.RESTApiTheme
 
 @Composable
@@ -93,11 +90,12 @@ fun MainScreen(
                 placeholderId = R.string.password,
                 isError = isPasswordError,
                 trailingIcon = {
-                    IconButton(
-                        onClick = { passwordVisibility = !passwordVisibility }
+                    IconToggleButton(
+                        checked = passwordVisibility,
+                        onCheckedChange = { passwordVisibility = !passwordVisibility }
                     ) {
                         Icon(
-                            imageVector = if (passwordVisibility) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            imageVector = if (passwordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                             contentDescription = null
                         )
                     }
@@ -129,38 +127,6 @@ fun MainScreen(
     }
 }
 
-@Composable
-fun LoginTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    @StringRes placeholderId: Int,
-    modifier: Modifier = Modifier,
-    isError: Boolean = false,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-) {
-    TextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
-        placeholder = {
-            Text(stringResource(placeholderId))
-        },
-        isError = isError,
-        singleLine = true,
-        shape = RoundedCornerShape(10.dp),
-        colors = TextFieldDefaults.colors(
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent
-        ),
-        trailingIcon = trailingIcon,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
-    )
-}
 
 @Preview(showBackground = true)
 @Composable
